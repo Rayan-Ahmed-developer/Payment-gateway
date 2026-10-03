@@ -12,8 +12,7 @@ export default function Payment() {
   const [error, setError] = useState("");
   const pollRef = useRef(null);
 
-  // agar user SafePay se wapas aaya hai (redirect ke baad), purana
-  // paymentId localStorage me hoga — usi ka status poll karna shuru kar do
+  
   useEffect(() => {
     const existingId = localStorage.getItem("paymentId");
     if (existingId) startPolling(existingId);
@@ -31,7 +30,7 @@ export default function Payment() {
           localStorage.removeItem("paymentId");
         }
       } catch {
-        // network hiccup — agli interval pe dobara try hoga
+    
       }
     }, 2000);
   };
@@ -40,7 +39,7 @@ export default function Payment() {
     setError("");
 
     if (!accountNumber.trim()) {
-      setError("Account number likhna zaroori hai");
+      setError("Account number must be provided");
       return;
     }
 
@@ -54,7 +53,7 @@ export default function Payment() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Kuch ghalat ho gaya");
+        throw new Error(data.error || "Something went wrong");
       }
 
       const { paymentId, checkoutUrl } = await res.json();

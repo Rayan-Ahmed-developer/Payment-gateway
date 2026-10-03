@@ -12,9 +12,6 @@ export async function POST(req) {
     return NextResponse.json({ error: "bad signature" }, { status: 400 });
   }
 
-  // step B — asli verify: SafePay ko wapas call karo, confirm karo
-  // ke transaction genuinely complete hui hai (sirf webhook body pe
-  // bharosa mat karo, wo bhi spoof ho sakta hai)
   const confirmed = await safepay.verify.webhook(req);
 
   const body = await req.json();
